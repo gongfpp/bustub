@@ -35,7 +35,9 @@ class Matrix {
    * @param cols The number of columns
    *
    */
-  Matrix(int rows, int cols) {}
+  Matrix(int rows, int cols) {
+    
+  }
 
   /** The number of rows in the matrix */
   int rows_;
