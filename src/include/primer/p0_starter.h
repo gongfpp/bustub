@@ -241,19 +241,19 @@ class RowMatrixOperations {
    */
   static std::unique_ptr<RowMatrix<T>> Add(const RowMatrix<T> *matrixA, const RowMatrix<T> *matrixB) {
     // TODO(P0): Add implementation
-    int RowA = matrixA->GetRowCount();
-    int RowB = matrixB->GetRowCount();
-    int ColA = matrixA->GetColumnCount();
-    int ColB = matrixB->GetColumnCount();
+    int row_a = matrixA->GetRowCount();
+    int row_b = matrixB->GetRowCount();
+    int col_a = matrixA->GetColumnCount();
+    int col_b = matrixB->GetColumnCount();
 
-    if (RowA != RowB || ColA != ColB || !matrixA || !matrixB) {
+    if (row_a != row_b || col_a != col_b || !matrixA || !matrixB) {
       return std::unique_ptr<RowMatrix<T>>(nullptr);
     }
 
-    std::unique_ptr<RowMatrix<T>> result = std::make_unique<RowMatrix<T>>(RowA, ColA);
+    std::unique_ptr<RowMatrix<T>> result = std::make_unique<RowMatrix<T>>(row_a, col_a);
     T temp;
-    for (int i = 0; i < RowA; i++) {
-      for (int j = 0; j < ColA; j++) {
+    for (int i = 0; i < row_a; i++) {
+      for (int j = 0; j < col_a; j++) {
         temp = matrixA->GetElement(i, j) + matrixB->GetElement(i, j);
         result->SetElement(i, j, temp);
       }
@@ -271,25 +271,25 @@ class RowMatrixOperations {
    */
   static std::unique_ptr<RowMatrix<T>> Multiply(const RowMatrix<T> *matrixA, const RowMatrix<T> *matrixB) {
     // TODO(P0): Add implementation
-    int RowA = matrixA->GetRowCount();
-    int RowB = matrixB->GetRowCount();
-    int ColA = matrixA->GetColumnCount();
-    int ColB = matrixB->GetColumnCount();
+    int row_a = matrixA->GetRowCount();
+    int row_b = matrixB->GetRowCount();
+    int col_a = matrixA->GetColumnCount();
+    int col_b = matrixB->GetColumnCount();
 
-    if (ColA != RowB || !matrixA || !matrixB) {
+    if (col_a != row_b || !matrixA || !matrixB) {
       return std::unique_ptr<RowMatrix<T>>(nullptr);
     }
 
-    auto result = std::make_unique<RowMatrix<T>>(RowA,ColB);
+    auto result = std::make_unique<RowMatrix<T>>(row_a, col_b);
     T temp;
-    for (int row = 0; row < RowA; row++) {
-      for (int col = 0; col < ColB; col++) {
+    for (int row = 0; row < row_a; row++) {
+      for (int col = 0; col < col_b; col++) {
         // calculate temp for each element
         temp = matrixA->GetElement(row, 0) * matrixB->GetElement(0, col);
-        for (int eleIdx = 1; eleIdx < ColA; eleIdx++) {
-          temp += matrixA->GetElement(row, eleIdx) * matrixB->GetElement(eleIdx, col);
+        for (int element_idx = 1; element_idx < col_a; element_idx++) {
+          temp += matrixA->GetElement(row, element_idx) * matrixB->GetElement(element_idx, col);
         }
-        result->SetElement(row,col,temp);
+        result->SetElement(row, col, temp);
       }
     }
     // LOG_INFO("teststsetsetst!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -309,7 +309,7 @@ class RowMatrixOperations {
                                             const RowMatrix<T> *matrixC) {
     // TODO(P0): Add implementation
     // return std::unique_ptr<RowMatrix<T>>(nullptr);
-    return Add(matrixC,Multiply(matrixA,matrixB).get());
+    return Add(matrixC, Multiply(matrixA, matrixB).get());
   }
 };
 }  // namespace bustub
